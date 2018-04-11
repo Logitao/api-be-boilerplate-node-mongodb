@@ -4,7 +4,6 @@ class Routes {
   constructor() { }
 
   initRoutes(app: express.Application) {
-    console.log('chegou aqui na api');
     app.route('/api').get(this.init);
   }
 

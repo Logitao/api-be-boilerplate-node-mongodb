@@ -16,10 +16,9 @@ class App {
   private middleware(): void {
     this.router(this.app);
     (req, res, next) => {
-      req['context'].db = db;
+      req['context'].db = db; 
       next();
-    }
-    
+    }    
   }
 
   private router(app: express.Application): void {

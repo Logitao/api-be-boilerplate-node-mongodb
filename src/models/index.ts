@@ -1,6 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Mongoose from 'mongoose';
+import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
+
+import { IUserSchema } from './user.model';
+import { IDbConnection } from './../interfaces/dbConnection.interface';
 
 const env = 'development';
 const basename: string = path.basename(module.filename);
@@ -14,7 +18,8 @@ if(!db) {
   
   db = {};
   //Mongoose.connect(mongoDB);
-  Mongoose.createConnection(mongoDB);
+  const mongoose: Mongoose.Mongoose = new Mongoose.Mongoose();//createConnection(mongoDB);
+  mongoose.createConnection(mongoDB);
 
   fs
     .readdirSync(__dirname)
@@ -22,12 +27,15 @@ if(!db) {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach((file: string) => {
-      console.log('O ARQUIVO PRÒXIMO É: ');
-      console.log(file);
-      //const model = Mongoose.model('Users', )
+      const model = require(path.join(__dirname, file)).default(mongoose);                 
+      db[model['modelName']] = model.modelName;//mongoose.model('User');
     })
-  //db = 
-  //db.model
+  
+  Object.keys(db)
+    .forEach((modelName: string) => {
+
+    })
+  db['mongoose'] = mongoose;
 }
 
-export default db;
+export default <IDbConnection>db;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon dist/index",
+    "dev": "node_modules/.bin/nodemon --delay 10 dist/index",
     "gulp": "gulp"
   },
   "keywords": [],
