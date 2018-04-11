@@ -10,7 +10,7 @@ export interface IUserAttributes {
   updatedAt?: string;
 }
 
-export interface IUserSchema extends Mongoose.Schema {
+export interface IUserSchema extends IUserAttributes, Mongoose.Schema {
 
 }
 
@@ -44,6 +44,6 @@ export default (mongoose: Mongoose.Mongoose): Mongoose.Model<IUserModel> => {
     return compareSync(password, encodePassword);
   };
 
-  return Mongoose.model<IUserModel>('Users', UserSchema);
+  return mongoose.model<IUserModel>('Users', UserSchema);
 }
 

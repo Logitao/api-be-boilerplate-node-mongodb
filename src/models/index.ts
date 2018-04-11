@@ -3,8 +3,9 @@ import * as path from 'path';
 import * as Mongoose from 'mongoose';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 
-import { IUserSchema } from './user.model';
+import { IUserSchema, IUserModel } from './user.model';
 import { IDbConnection } from './../interfaces/dbConnection.interface';
+import { Schema } from 'mongoose';
 
 const env = 'development';
 const basename: string = path.basename(module.filename);
@@ -27,15 +28,19 @@ if(!db) {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach((file: string) => {
-      const model = require(path.join(__dirname, file)).default(mongoose);                 
-      db[model['modelName']] = model.modelName;//mongoose.model('User');
+      const model: Mongoose.Model<Mongoose.Document> = require(path.join(__dirname, file)).default(mongoose);
+      console.log(model.modelName);     
+                                
+      db[model['modelName']] = model;      
     })
   
   Object.keys(db)
     .forEach((modelName: string) => {
-
+      
     })
-  db['mongoose'] = mongoose;
+  db['mongoose'] = mongoose; 
+   
+  //console.log(db);
 }
 
 export default <IDbConnection>db;
