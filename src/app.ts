@@ -16,7 +16,7 @@ class App {
 
   private middleware(): void {   
     db
-    console.log(db.mongoose.model('User').find().then((user) => {console.log('Entrou aqui')}));
+    //console.log(db.mongoose.model('User'));
     //db.mongoose.model('User');  
 
     this.router(this.app);            

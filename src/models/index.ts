@@ -29,14 +29,17 @@ if(!db) {
     })
     .forEach((file: string) => {
       const model: Mongoose.Model<Mongoose.Document> = require(path.join(__dirname, file)).default(mongoose);
-      console.log(model.modelName);     
+      //console.log(model.modelName);     
                                 
       db[model['modelName']] = model;      
     })
   
   Object.keys(db)
     .forEach((modelName: string) => {
-      
+      console.log(modelName);
+      if (db[modelName]) {
+        console.log(db[modelName]);
+      }
     })
   db['mongoose'] = mongoose; 
    
