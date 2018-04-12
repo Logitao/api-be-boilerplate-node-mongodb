@@ -1,11 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as Mongoose from 'mongoose';
+import { Mongoose, Connection, Document, Model} from 'mongoose';
 import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 
-import { IUserSchema, IUserModel } from './user.model';
 import { IDbConnection } from './../interfaces/dbConnection.interface';
-import { Schema } from 'mongoose';
+
+//Models
+import { IUserSchema, IUserModel, IUserAttributes } from './user.model';
 
 const env = 'development';
 const basename: string = path.basename(module.filename);
@@ -18,9 +19,9 @@ let db = null;
 if(!db) {
   
   db = {};
-  //Mongoose.connect(mongoDB);
-  const mongoose: Mongoose.Mongoose = new Mongoose.Mongoose();//createConnection(mongoDB);
-  mongoose.createConnection(mongoDB);
+  
+  const mongoose: Mongoose = new Mongoose();  
+  const conn: Connection = mongoose.createConnection(mongoDB);
 
   fs
     .readdirSync(__dirname)
@@ -28,22 +29,17 @@ if(!db) {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach((file: string) => {
-      const model: Mongoose.Model<Mongoose.Document> = require(path.join(__dirname, file)).default(mongoose);
-      //console.log(model.modelName);     
-                                
-      db[model['modelName']] = model;      
+      const model: Model<Document> = require(path.join(__dirname, file)).default(conn);                                                     
+      db[model['modelName']] = model;                
     })
   
   Object.keys(db)
     .forEach((modelName: string) => {
-      console.log(modelName);
-      if (db[modelName]) {
-        console.log(db[modelName]);
+      if (db[modelName]) {        
+        
       }
     })
-  db['mongoose'] = mongoose; 
-   
-  //console.log(db);
+    
+  db['mongoose'] = conn;       
 }
-
 export default <IDbConnection>db;

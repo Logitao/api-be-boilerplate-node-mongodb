@@ -3,7 +3,6 @@ import * as http from 'http';
 import * as Mongoose from 'mongoose';
 
 import Routes from './routes/routes';
-import db from './models/index';
 
 class App {
   
@@ -15,16 +14,13 @@ class App {
   }
 
   private middleware(): void {   
-    db
-    //console.log(db.mongoose.model('User'));
-    //db.mongoose.model('User');  
-
     this.router(this.app);            
   }
 
   private router(app: express.Application): void {
     Routes.initRoutes(app);
   }  
+
 }
 
 export default new App().app;
