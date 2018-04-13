@@ -16,6 +16,7 @@ class App {
 
   private middleware(): void {   
     db
+    //console.log(db);
     //console.log(db.mongoose.model('User'));
     //db.mongoose.model('User');  
 
