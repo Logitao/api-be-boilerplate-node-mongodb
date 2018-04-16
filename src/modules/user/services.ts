@@ -10,8 +10,17 @@ export class UserServices {
     
     constructor() { }
 
-    getAll(): Bluebird<IUserAttributes> {          
-        return db.User.find();
+    getAll(): Bluebird<IUserAttributes> {                 
+        return db.User
+            .find({'email': 'mp.fortunato@gmail.com'})
+            .select('name email');
+        //return db.mongoose.connection.collection('users').find();
+    }
+
+    getByEmail(user: IUserAttributes): Bluebird<IUserAttributes> {                 
+        return db.User
+            .find({'email': 'mp.fortunato@gmail.com'})
+            .select('name email');        
     }
 
     create(user: IUserAttributes){                                                       

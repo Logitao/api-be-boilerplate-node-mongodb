@@ -1,5 +1,6 @@
 import { Schema, Document, Model, Connection} from 'mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
+import { ObjectId } from 'bson';
 
 export interface IUserAttributes {
   name?: string;
@@ -20,10 +21,22 @@ export interface IUserModel extends IUserAttributes, Document {
 
 export default (conn: Connection): Model<IUserModel> => {
   
+  const DataTypes = Schema.Types;
   const UserSchema: IUserSchema = new Schema({
-    name: String,
-    email: String,
-    password: String,
+    id: {
+      type: DataTypes.ObjectId,
+      unique: true
+    },
+    name: {
+      type: DataTypes.String,
+      required: true,
+    },
+    email: {
+      type: DataTypes.String,
+      required: true,
+      unique: true
+    },
+    password: DataTypes.String,
     //photo: String,
     //createdAt: Date,  
   });

@@ -29,7 +29,7 @@ class Handlers {
         res.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(message); 
     };
 
-    onSuccess(res: Response, data: any) {        
+    onSuccess(res: Response, data: any) {         
         res.status(HTTPStatus.OK).json({ payload: data }); 
     };
 
