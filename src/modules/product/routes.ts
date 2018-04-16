@@ -10,7 +10,7 @@ class ProductRoutes implements IRoutes {
         app.route('/api/products/all').get(this.getAllProducts);
     }
 
-    getAllProducts(req, res) {
+    private getAllProducts(req, res) {
         return res.status(200).json({'Status': 'OK'});
     }
     

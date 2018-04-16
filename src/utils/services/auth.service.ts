@@ -4,15 +4,22 @@ import * as path from 'path';
 import { IUserAttributes } from '../../models/user.model';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(path.resolve(`${__dirname}./../config/config.json`))[env];
+const config = require(path.resolve(`${__dirname}./../../config/config.json`))[env];
+
+export interface IUserAuth {
+    id: string,
+    email: string;
+}
 
 class Auth {
 
     constructor() { }
 
-    async generateToken(user: any) {        
-        const payload = {sub: user._id};
-        return jwt.sign(payload, config.secret, { expiresIn: '1d' })
+    async generateToken(user: IUserAuth) {        
+        const payload = {sub: user.id};        
+        return {
+            token: jwt.sign(payload, config.secret, { expiresIn: '1d' })
+        }
     }
 
     async decodeToken(token) {

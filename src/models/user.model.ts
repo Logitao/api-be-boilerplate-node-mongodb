@@ -16,7 +16,7 @@ export interface IUserSchema extends Schema {
 }
 
 export interface IUserModel extends IUserAttributes, Document {
-
+  isPassword(password: string, encodePassword: string): boolean;
 }
 
 export default (conn: Connection): Model<IUserModel> => {

@@ -1,5 +1,6 @@
 import * as express from "express";
 
+import TokenRoutes from "../modules/token/routes";
 import UserRoutes from "../modules/user/routes";
 import ProductRoutes from "../modules/product/routes";
 
@@ -12,6 +13,7 @@ class Routes {
   initRoutes(app: Application) {
     UserRoutes.initRoute(app);
     ProductRoutes.initRoute(app);
+    TokenRoutes.initRoute(app);
   }
 }
 

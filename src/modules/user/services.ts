@@ -12,18 +12,24 @@ export class UserServices {
 
     getAll(): Bluebird<IUserAttributes> {                 
         return db.User
-            .find({'email': 'mp.fortunato@gmail.com'})
+            .find()
             .select('name email');
         //return db.mongoose.connection.collection('users').find();
     }
 
-    getByEmail(user: IUserAttributes): Bluebird<IUserAttributes> {                 
+    getById(id): Bluebird<IUserAttributes> {                 
         return db.User
-            .find({'email': 'mp.fortunato@gmail.com'})
+            .findById({'_id': id})
             .select('name email');        
     }
 
-    create(user: IUserAttributes){                                                       
+    getByEmail(email): Bluebird<IUserAttributes> {                 
+        return db.User
+            .find({'email': email})
+            .select('name email');        
+    }
+
+    create(user: IUserAttributes){                                                               
         return new db.User(user).save();
     }
 }

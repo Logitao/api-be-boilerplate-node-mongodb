@@ -9,10 +9,10 @@ class TokenRoutes implements IRoutes {
     constructor() { }
 
     initRoute(app: Application): void {
-        app.route('/api/token/create').get(this.createToken);
+        app.route('/api/token/create').post(this.createToken);
     }
 
-    createToken(req, res) {
+    private createToken(req, res) {
         return TokenController.createToken(req, res);
     }
     
