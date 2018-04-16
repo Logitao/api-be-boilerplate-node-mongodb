@@ -8,12 +8,12 @@ export class UserRoutes implements IRoutes {
     constructor() { }
 
     initRoute(app: Application): void {
-        app.route('/api/users/all').get(this.getAllUser);
+        app.route('/api/users/all').get(this.getAllUsers);
         app.route('/api/users/create').post(this.createUser);
     }
 
-    private getAllUser(req: Request, res: Response) {
-        return UserController.getAllUser(req, res)
+    private getAllUsers(req: Request, res: Response) {
+        return UserController.getAllUsers(req, res)
     }
 
     private createUser(req: Request, res: Response) {

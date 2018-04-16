@@ -8,13 +8,25 @@ class UserController {
 
     constructor() { }
 
-    getAllUser(req: Request, res: Response) {
-        User.getAll()
-            .then(_.partial(Handlers.onSuccess, res))        
-            .catch(_.partial(Handlers.onError, res, `Error to GET Users`))
+    async getAllUsers(req: Request, res: Response) {
+        try {            
+            Handlers.onSuccess(res, await User.getAll());
+        } catch (error) {            
+            Handlers.onError(res, `Error to GET Users`, error);
+        }
+        
+        //res.status(200).json({ payload: x }); 
+        //User.getAll();
+            //.then(_.partial(Handlers.onSuccess, res))        
+            //.catch(_.partial(Handlers.onError, res, `Error to GET Users`))
     }
 
     createUser(req: Request, res: Response) {
+        req.body = {
+            "name": "marcelo",
+            "email": "mp.fortunato@gmail.com",
+            "password": "1234"
+        }
         User.create(req.body)
             .then(_.partial(Handlers.onSuccess, res))        
             .catch(_.partial(Handlers.dbErrorHandler, res))

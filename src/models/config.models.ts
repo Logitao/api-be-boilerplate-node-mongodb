@@ -5,12 +5,10 @@ import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
 
 import { IDbConnection } from './../interfaces/dbConnection.interface';
 
-const env = 'development';
+const env = process.env.NODE_ENV || 'development';
 const basename: string = path.basename(module.filename);
-
-let config = require(path.resolve(`${__dirname}./../config/config.json`))[env];
-
-let mongoDB = `mongodb://${config.host}:${config.port}/${config.database}`;
+const config = require(path.resolve(`${__dirname}./../config/config.json`))[env];
+const mongoDB = `mongodb://${config.host}:${config.port}/${config.database}`;
 
 let db = null;
 
@@ -39,5 +37,7 @@ if(!db) {
     })
     
   db['mongoose'] = conn;       
+  
 }
+
 export default <IDbConnection>db;

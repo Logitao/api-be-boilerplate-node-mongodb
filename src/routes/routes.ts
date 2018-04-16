@@ -1,6 +1,8 @@
 import * as express from "express";
 
 import UserRoutes from "../modules/user/routes";
+import ProductRoutes from "../modules/product/routes";
+
 import { Application } from "express";
 
 class Routes {
@@ -9,6 +11,7 @@ class Routes {
 
   initRoutes(app: Application) {
     UserRoutes.initRoute(app);
+    ProductRoutes.initRoute(app);
   }
 }
 
