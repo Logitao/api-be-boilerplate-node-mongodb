@@ -1,7 +1,9 @@
-import { IUserSchema } from "../models/user.model";
+import { Model } from 'mongoose';
+
+import { IUserModel } from "../models/user.model";
 
 export interface IModels {
 
-    User: IUserSchema;
+    User: Model<IUserModel>;
 
 }
