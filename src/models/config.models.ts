@@ -25,7 +25,8 @@ if(!db) {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach((file: string) => {
-      const model: Model<Document> = require(path.join(__dirname, file)).default(conn);                                                     
+      const model: Model<Document> = require(path.join(__dirname, file)).default(conn); 
+      console.log(model['modelName']);                                                    
       db[model['modelName']] = model;                
     })
   

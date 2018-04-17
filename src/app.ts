@@ -14,7 +14,7 @@ class App {
     this.middleware();
   }
 
-  private middleware(): void {   
+  private middleware(): void {       
     this.app.use(bodyParser.urlencoded( {extended: true} ));
     this.app.use(bodyParser.json());
     this.router(this.app);            

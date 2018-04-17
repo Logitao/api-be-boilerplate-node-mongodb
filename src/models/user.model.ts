@@ -1,14 +1,10 @@
 import { Schema, Document, Model, Connection} from 'mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
-import { ObjectId } from 'bson';
 
 export interface IUserAttributes {
   name?: string;
   email?: string;
   password?: string;
-  //photo?: string;
-  //createdAt?: string;
-  //updatedAt?: string;
 }
 
 export interface IUserSchema extends Schema {
@@ -37,8 +33,6 @@ export default (conn: Connection): Model<IUserModel> => {
       unique: true
     },
     password: DataTypes.String,
-    //photo: String,
-    //createdAt: Date,  
   });
   
   UserSchema.pre('save', function(this: IUserModel, next) {
@@ -48,9 +42,10 @@ export default (conn: Connection): Model<IUserModel> => {
   });  
 
   UserSchema.pre('update', function(this: IUserModel, next): void {
-    if (this.password) {      
-      const salt = genSaltSync();
-      this.password = hashSync(this.password, salt);
+    if (this.password) {   
+      console.log(this.password);   
+      //const salt = genSaltSync();
+      //this.password = hashSync(this.password, salt);
     }
     next();
   });

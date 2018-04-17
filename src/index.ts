@@ -8,7 +8,7 @@ import db from './models/config.models';
 import { normalize } from 'path';
 
 const server = http.createServer(app);
-const port = normalizePort(process.env.port || 3002);
+const port = normalizePort(process.env.port || 3005);
 
 db.mongoose.on('connected', () => {  
   console.log(`Connected in MongoDB`)
