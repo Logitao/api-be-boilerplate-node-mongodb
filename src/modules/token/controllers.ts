@@ -11,16 +11,21 @@ class TokenController {
     constructor() { }
 
     async createToken(req: Request, res: Response) {
+        const credentials = {
+            email: req.body.email,
+            password: req.body.password,
+        }
         const errorMessage: string = 'Unathorized, wrong email or password!';                        
         try {
                         
-            const user: IUserModel = await db.User.findOne({email: req.body.email});                
+            const user: IUserModel = await db.User.findOne({email: credentials.email});                
             if (!user) throw new Error(errorMessage);
 
-            const isPassword: boolean = await new db.User().isPassword(req.body.password, user.password);            
+            const isPassword: boolean = await new db.User().isPassword(credentials.password, user.password);                        
             if (!isPassword) throw new Error(errorMessage);
 
             Handlers.onSuccess(res, await Token.create(req.body));
+            //Handlers.authSuccess(res, credentials, user);            
         } catch (error) {  
             console.log(error.message); 
             if (error.message !== errorMessage) {

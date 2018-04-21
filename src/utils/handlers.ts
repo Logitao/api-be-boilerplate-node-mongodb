@@ -1,27 +1,14 @@
 import { Request, Response, ErrorRequestHandler, NextFunction } from 'express';
 import * as HTTPStatus from 'http-status';
-//import * as jwt from 'jwt-simple';
-import * as bcrypt from 'bcryptjs';
-
-//const config = require('../../config/env/config')();
 
 class Handlers {
     
-    authFail(req: Request, res: Response) {
+    authFail(res: Response) {
         res.sendStatus(HTTPStatus.UNAUTHORIZED);
     };
 
     authSuccess(res: Response, credentials: any, data: any) {
-        const isMatch = bcrypt.compareSync(credentials.password, data.password);
-    
-        if (isMatch) {
-            const payload = {id: data.id};
-            res.json({
-                //token: jwt.encode(payload, config.secret)
-            })
-        } else {
-            res.status(HTTPStatus.UNAUTHORIZED);
-        }
+        //implementar esse método
     };
 
     onError(res: Response, message: string, error: any) {
@@ -32,6 +19,10 @@ class Handlers {
     onSuccess(res: Response, data: any) {         
         res.status(HTTPStatus.OK).json({ payload: data }); 
     };
+
+    onNext(next) {
+        next();
+    }
 
     errorHandlerApi(err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) {
         console.error(`API error handler was executed: ${err}`);
