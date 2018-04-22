@@ -12,7 +12,7 @@ class ProductRoutes implements IRoutes {
 
     initRoute(app: Application): void {
         app.route('/api/products/all').all(Auth.authorize).get(this.getAllProducts);
-        app.route('/api/products/create').get(this.createProduct);
+        app.route('/api/products/create').all(Auth.authorize).get(this.createProduct);
     }
 
     private getAllProducts(req: Request, res: Response) {        

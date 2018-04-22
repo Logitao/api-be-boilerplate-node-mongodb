@@ -1,6 +1,7 @@
 import { Request, Response, Application } from 'express';
 
 import UserController from './controllers';
+import Auth from '../../utils/services/auth.service';
 import { IRoutes } from '../../interfaces/routes.interface';
 
 export class UserRoutes implements IRoutes {
@@ -8,8 +9,8 @@ export class UserRoutes implements IRoutes {
     constructor() { }
 
     initRoute(app: Application): void {
-        app.route('/api/users/all').get(this.getAllUsers);
-        app.route('/api/users/create').post(this.createUser);
+        app.route('/api/users/all').all(Auth.authorize).get(this.getAllUsers);
+        app.route('/api/users/create').all(Auth.authorize).post(this.createUser);
     }
 
     private getAllUsers(req: Request, res: Response) {

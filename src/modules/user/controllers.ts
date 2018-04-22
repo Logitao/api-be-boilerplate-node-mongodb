@@ -1,4 +1,4 @@
-import { Request, Response, Application } from 'express';
+import { Request, Response, NextFunction, Application } from 'express';
 import * as _ from 'lodash';
 
 import Handlers from '../../utils/handlers';

@@ -22,7 +22,7 @@ class Auth {
     async generateToken(user: IUserAuth) {        
         const payload = {sub: user.id};        
         return {
-            token: await jwt.sign(payload, config.secret, { expiresIn: '1h' })
+            token: await jwt.sign(payload, config.secret, { expiresIn: '1000' })
         }
     }
 
@@ -34,18 +34,15 @@ class Auth {
     async authorize(req: Request, res: Response, next: NextFunction) {                                        
         try {
             const token = req.headers['authorization'];
-            if(!token || token === undefined) {
-                res.status(HTTPStatus.UNAUTHORIZED);   
-                //_.partial(Handlers.authFail, res);                
-            } else {
-                const Authx = new Auth();
-                const y = await Authx.decodeToken(token);  
-                _.partial(Handlers.onNext, next);              
+            if(!token || token === undefined) {          
+                Handlers.authFail(res, `There is no TOKEN!`);                
+            } else {                
+                // Why is it necessary new instance of Auth to call 'decodeToken' if I'm inside of the class?
+                await new Auth().decodeToken(token);                              
+                Handlers.onNext(next);              
             }                        
         } catch(error) {
-            res.status(HTTPStatus.UNAUTHORIZED).json({
-                message: error
-            });            
+            Handlers.onError(res, error.message, error);          
         }        
     }
 }
