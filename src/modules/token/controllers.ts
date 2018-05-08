@@ -23,8 +23,10 @@ class TokenController {
 
             const isPassword: boolean = await new db.User().isPassword(credentials.password, user.password);                        
             if (!isPassword) throw new Error(errorMessage);
-
-            Handlers.onSuccess(res, await Token.create(req.body));
+            
+            req.body.id = user._id;
+            req.body.name = user.name;
+            Handlers.onSuccess(res, await Token.create(req.body));        
             //Handlers.authSuccess(res, credentials, user);            
         } catch (error) {  
             console.log(error.message); 

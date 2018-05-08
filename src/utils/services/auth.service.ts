@@ -12,7 +12,9 @@ const config = require(path.resolve(`${__dirname}./../../config/config.json`))[e
 
 export interface IUserAuth {
     id: string,
-    email: string;
+    name: string,
+    email: string,
+    accessToken: string
 }
 
 class Auth {
@@ -21,9 +23,8 @@ class Auth {
 
     async generateToken(user: IUserAuth) {        
         const payload = {sub: user.id};        
-        return {
-            token: await jwt.sign(payload, config.secret, { expiresIn: '1000' })
-        }
+        user.accessToken = await jwt.sign(payload, config.secret, { expiresIn: '1000' })
+        return user;
     }
 
     async decodeToken(token) {  
