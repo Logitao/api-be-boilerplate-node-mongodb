@@ -36,7 +36,7 @@ class TokenController {
         } catch (error) {  
             console.log(error.message); 
             if (error.message !== errorMessage) {
-                Handlers.onError(res, error.message, error);    
+                Handlers.onError(res, errorMessage, error);    
             } else {
                 Handlers.onError(res, error.message, error);
             }
