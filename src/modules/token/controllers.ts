@@ -22,12 +22,17 @@ class TokenController {
             if (!user) throw new Error(errorMessage);
 
             const isPassword: boolean = await new db.User().isPassword(credentials.password, user.password);                        
-            if (!isPassword) throw new Error(errorMessage);
+            if (!isPassword) throw new Error(errorMessage);                    
             
-            req.body.id = user._id;
-            req.body.name = user.name;
-            Handlers.onSuccess(res, await Token.create(req.body));        
-            //Handlers.authSuccess(res, credentials, user);            
+            let token = await Token.create(user._id);            
+            const authZ = {
+                id: user._id,
+                email: user.email,
+                name: user.name,
+                token
+            }
+
+            Handlers.onSuccess(res, authZ);                             
         } catch (error) {  
             console.log(error.message); 
             if (error.message !== errorMessage) {

@@ -10,21 +10,13 @@ import Handlers from '../../utils/handlers';
 const env = process.env.NODE_ENV || 'development';
 const config = require(path.resolve(`${__dirname}./../../config/config.json`))[env];
 
-export interface IUserAuth {
-    id: string,
-    name: string,
-    email: string,
-    accessToken: string
-}
-
 class Auth {
 
     constructor() { }
 
-    async generateToken(user: IUserAuth) {        
-        const payload = {sub: user.id};        
-        user.accessToken = await jwt.sign(payload, config.secret, { expiresIn: '1000' })
-        return user;
+    async generateToken(id: string): Promise<string> {             
+        const payload = {sub: id};        
+        return await jwt.sign(payload, config.secret, { expiresIn: '1000' });
     }
 
     async decodeToken(token) {  
