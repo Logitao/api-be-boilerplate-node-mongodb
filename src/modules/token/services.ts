@@ -13,6 +13,10 @@ export class TokenServices {
     create(id: string): Promise<string> {                                                                             
         return Auth.generateToken(id);
     }
+
+    verify(token: string): Promise<any> {
+        return Auth.decodeToken(token);
+    } 
 }
 
 export default new TokenServices();

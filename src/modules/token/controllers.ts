@@ -42,6 +42,16 @@ class TokenController {
             }
         }    
     }
+
+    async verify(req: Request, res: Response) {        
+        const token = req.body.token;
+        try {
+            let data = await Token.verify(token)
+            Handlers.onSuccess(res, data)
+        } catch(error) {
+            Handlers.onError(res, error.message, error);
+        }
+    }
 }
 
 export default new TokenController();

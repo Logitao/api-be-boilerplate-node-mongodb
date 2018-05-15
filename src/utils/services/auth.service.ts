@@ -19,25 +19,27 @@ class Auth {
         return await jwt.sign(payload, config.secret, { expiresIn: '1000' });
     }
 
-    async decodeToken(token) {  
+    async decodeToken(token: string) {  
         const data = await jwt.verify(token, config.secret);
         return data;
     }
 
     async authorize(req: Request, res: Response, next: NextFunction) {                                        
         try {
-            const token = req.headers['authorization'];
-            if(!token || token === undefined) {          
+            const token = req.headers['authorization'];                        
+            if(!token || token === undefined) {                          
                 Handlers.authFail(res, `There is no TOKEN!`);                
             } else {                
                 // Why is it necessary new instance of Auth to call 'decodeToken' if I'm inside of the class?
-                await new Auth().decodeToken(token);                              
+                await new Auth().decodeToken(token);                                              
                 Handlers.onNext(next);              
             }                        
-        } catch(error) {
+        } catch(error) {            
             Handlers.onError(res, error.message, error);          
         }        
     }
+
+
 }
 
 export default new Auth();
