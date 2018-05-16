@@ -1,6 +1,7 @@
 import { Request, Response, Application } from 'express';
 
 import TokenController from './controllers';
+import Auth from '../../utils/services/auth.service';
 import { IRoutes } from '../../interfaces/routes.interface';
 
 
@@ -10,7 +11,7 @@ class TokenRoutes implements IRoutes {
 
     initRoute(app: Application): void {
         app.route('/api/token/create').post(this.createToken);
-        app.route('/api/token/verify').post(this.verifyTokenValidate);
+        app.route('/api/token/verify').all(Auth.authorize).get(this.verifyTokenValidate);
     }
 
     private createToken(req, res) {
@@ -18,9 +19,7 @@ class TokenRoutes implements IRoutes {
     }
 
     private verifyTokenValidate(req, res) {
-        console.log('Chegou aqui')
-        console.log(req.body)
-        return false;//TokenController.verify(req, res);
+        return res.status(200).send({status: true});
     }
     
 }

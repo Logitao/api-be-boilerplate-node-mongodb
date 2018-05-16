@@ -3,7 +3,8 @@ import * as HTTPStatus from 'http-status';
 
 class Handlers {
     
-    authFail(res: Response, message: string) {
+    authFail(res: Response, message: string, error: any) {
+        console.log(`Error: ${error}`);
         res.status(HTTPStatus.UNAUTHORIZED).send({ message: message });
     };
 

@@ -26,16 +26,16 @@ class Auth {
 
     async authorize(req: Request, res: Response, next: NextFunction) {                                        
         try {
-            const token = req.headers['authorization'];                        
+            const token = req.headers['authorization'] || req.body.token;                        
             if(!token || token === undefined) {                          
-                Handlers.authFail(res, `There is no TOKEN!`);                
+                Handlers.authFail(res, `There is no TOKEN!`, null);                
             } else {                
                 // Why is it necessary new instance of Auth to call 'decodeToken' if I'm inside of the class?
                 await new Auth().decodeToken(token);                                              
                 Handlers.onNext(next);              
             }                        
-        } catch(error) {            
-            Handlers.onError(res, error.message, error);          
+        } catch(error) {  
+            Handlers.authFail(res, error.message, error);          
         }        
     }
 
