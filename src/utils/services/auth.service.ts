@@ -16,7 +16,7 @@ class Auth {
 
     async generateToken(id: string): Promise<string> {             
         const payload = {sub: id};        
-        return await jwt.sign(payload, config.secret, { expiresIn: '1000' });
+        return await jwt.sign(payload, config.secret, { expiresIn: '1d' });
     }
 
     async decodeToken(token: string) {  
